@@ -1,0 +1,24 @@
+{
+  "name": "playwrightproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lord-of-Waffles/PlaywrightProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Lord-of-Waffles/PlaywrightProject/issues"
+  },
+  "homepage": "https://github.com/Lord-of-Waffles/PlaywrightProject#readme",
+  "devDependencies": {
+    "@playwright/test": "1.57",
+    "@types/node": "^25.3.3",
+    "playwright": "1.57"
+  }
+}

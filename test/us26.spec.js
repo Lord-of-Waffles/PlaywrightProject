@@ -6,6 +6,8 @@ const geojsonFilePath = 'data/pantagruel.geojson';
 
 test('add a personal layer of type geosjon', async ({ page }) => {
 
+    // step 0 : login to have the personal layer thingy 
+
     // step 1 : navigate to map page
     await test.step('navigate to cittywatts map', async () => {
         //GOTO map page

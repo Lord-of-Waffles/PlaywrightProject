@@ -3,6 +3,15 @@
 
 import { test, expect } from '@playwright/test';
 
+test.beforeEach(async ({ context, page }) => {
+    await context.clearCookies();
+    // Use an anonymous function to clear storage safely
+    await page.addInitScript(() => {
+        window.localStorage.clear();
+        window.sessionStorage.clear();
+    });
+});
+
 
 // test that we can access the maps page
 test('Go to maps', async ({ page }) => {
@@ -17,6 +26,8 @@ test('Go to maps', async ({ page }) => {
 
 // test
 test('Navigate to Login page', async ({ page }) => {
+
+    
 
     await test.step('Navigate to login', async () => {
 

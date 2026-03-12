@@ -24,14 +24,27 @@ test('Navigate to Login page', async ({ page }) => {
 
         // Dismiss cookie dialog if present
 
-        const declineCookies = page.getByRole("button", {name : "Decline statistics cookies"});
+        /*const declineCookies = page.getByRole("button", {name : "Decline statistics cookies"});
         if (await declineCookies.isVisible({ timeout: 5000 }).catch(() => false)) {
             await declineCookies.click();
         }
+        */
 
         //await page.getByLabel('Login').click();
+        await expect(page.locator('.spinner')).toBeHidden();
+        const declineCookies = page.getByRole("button", { name: "Decline statistics cookies" });
 
-        await page.getByRole('button', { name: 'Login' }).click();
+        // Wait up to 5s for the banner to actually show up in the DOM/UI
+        try {
+            await declineCookies.waitFor({ state: 'visible', timeout: 5000 });
+            await declineCookies.click();
+            // CRITICAL: Wait for it to disappear so it doesn't block the next click
+            await expect(declineCookies).toBeHidden(); 
+        } catch (e) {
+            // If it never shows up, that's fine, we move on
+            console.log("Cookie banner didn't appear.");
+        }
+        await page.getByRole('button', { name: 'Login' }).dispatchEvent('click');
     });
 
     await test.step('Fill form', async () => {

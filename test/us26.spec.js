@@ -12,7 +12,7 @@ test('add a personal layer of type geosjon', async ({ page }) => {
 
     // step 1 : navigate to map page
     await test.step('navigate to cittywatts map', async () => {
-        //GOTO map page
+        // GOTO map page
         await page.goto('https://citiwattsdev.hevs.ch/map');
 
         // check that the title is correct

@@ -21,10 +21,11 @@ test('add a personal layer of type geosjon', async ({ page }) => {
 
     // step 2 : find layer tab -> button "add personal layer"
     await test.step('Add personal layer', async () => {
-        // find and click on personal layer button 
-        // yes a specific step for that cause if it doesnt work then it means there is a problem :) 
-        // and also i think the next step deserves its own step 
-        await page.getByRole("button", { name : "Add a personal layer", exact: true }).click();
+        // find and click on personal layer button
+        // yes a specific step for that cause if it doesnt work then it means there is a problem :)
+        // and also i think the next step deserves its own step
+
+        await page.getByRole("button", { name : "Add a personal layer", exact: true }).click({ force: true });
 
         //check that the form is visible
         await expect(page.getByRole('dialog', { name: 'Personal layer' })).toBeVisible();

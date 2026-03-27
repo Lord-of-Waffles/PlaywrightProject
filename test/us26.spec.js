@@ -12,18 +12,46 @@ test('add a personal layer of type geosjon', async ({ page }) => {
 
     // step 1 : navigate to map page
     await test.step('navigate to cittywatts map', async () => {
-        //GOTO map page
+        // GOTO map page
         await page.goto('https://citiwattsdev.hevs.ch/map');
 
         // check that the title is correct
         await expect(page).toHaveTitle(/Toolbox/);
     })
 
+    // step 1.5 : clean up existing personal layers if account is full
+    await test.step('Delete existing personal layers', async () => {
+        const personalLayersRegion = page.getByRole('region', { name: /Personal layers/ });
+
+        // loop: while there are personal layer checkboxes, select and delete them
+        while (true) {
+            const checkbox = personalLayersRegion.getByRole('checkbox').first();
+            if (!await checkbox.isVisible({ timeout: 2000 }).catch(() => false)) break;
+
+            // click the layer to select it and reveal the delete button
+            await checkbox.click();
+
+            // click the delete button (trash icon)
+            const deleteBtn = personalLayersRegion.getByRole('button', { name: 'Delete personal layers' });
+            await deleteBtn.click();
+
+            // confirm deletion if a confirmation dialog appears
+            const confirmBtn = page.getByRole('button', { name: /delete|confirm|yes|ok/i });
+            if (await confirmBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
+                await confirmBtn.click();
+            }
+
+            // wait for the layer to be removed
+            await page.waitForTimeout(500);
+        }
+    })
+
     // step 2 : find layer tab -> button "add personal layer"
     await test.step('Add personal layer', async () => {
-        // find and click on personal layer button 
-        // yes a specific step for that cause if it doesnt work then it means there is a problem :) 
-        // and also i think the next step deserves its own step 
+        // find and click on personal layer button
+        // yes a specific step for that cause if it doesnt work then it means there is a problem :)
+        // and also i think the next step deserves its own step
+
         await page.getByRole("button", { name : "Add a personal layer", exact: true }).click();
 
         //check that the form is visible

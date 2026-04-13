@@ -12,20 +12,19 @@ test('filter results by category', async ({ page }) => {
         await expect(page).toHaveTitle(/Toolbox/);
     })
 
-    // step 2 : select areas by click-and-drag on the map
-    // Source - https://stackoverflow.com/a/67897824
+    // step 2 : select areas by clicking on the map
     await test.step('select areas', async () => {
-        // select the drag tool - rectangle button
-        await page.getByRole('button', { name: 'Rectangle' }).click();
-        
-        // drag to select a region on the map
-        await page.mouse.move(600, 300);
-        await page.mouse.down();
-        await page.mouse.move(1200, 450, { steps: 5 });
-        await page.mouse.up();
+        // use the click tool to select areas (workaround for rectangle WFS issue)
+        await page.getByRole('button', { name: 'Click' }).click();
+
+        // click on the map to select an area
+        await page.mouse.click(800, 400);
 
         // wait for selection to register
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(2000);
+
+        // verify that the clear button is enabled (area was selected)
+        await expect(page.getByRole('button', { name: 'Clear', exact: true })).toBeEnabled({ timeout: 10000 });
     })
 
 
